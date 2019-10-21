@@ -40,8 +40,55 @@ class Node {
 	}
 
 	swapWithParent() {
-		
-	}
+		if (this.parent === null) return;
+
+        let grandParent = this.parent.parent;
+        let tempNode = this;
+        let parent = this.parent;
+        let left = this.left;
+        let right = this.right;
+        
+        
+        if (grandParent === null) {
+            tempNode.parent = null;
+        } else if ( grandParent !== null ) {
+            tempNode.parent = grandParent;
+            if (  parent === grandParent.left ) {
+                 grandParent.left = tempNode;
+            } else if (parent === grandParent.right) {
+                grandParent.right = tempNode;
+            }
+        }
+        parent.parent = tempNode; 
+        if (parent.left === tempNode ) {
+            tempNode.left = parent;
+            tempNode.right = parent.right;
+            
+            
+            if (parent.right !== null) {
+                parent.right.parent = tempNode;
+             }  
+
+        } else if (parent.right === tempNode) {
+            tempNode.right = parent;
+            tempNode.left = parent.left;
+            if (parent.left !== null) {
+                parent.left.parent = tempNode;  
+            }   
+        }
+        
+        parent.left = left;
+        
+        if (parent.left !== null) {
+            left.parent = parent;
+        }
+        parent.right = right;
+        if (parent.right !== null) {
+            right.parent = parent;
+        }
+
+        
+	} 
 }
 
 module.exports = Node;
